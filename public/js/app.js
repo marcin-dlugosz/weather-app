@@ -17,7 +17,7 @@ const getWeather = (address) => {
                 messageOne.textContent = data.location
                 messageTwo.textContent = data.forecast
             }
-        }).then(()=> {
+        }).then(() => {
             loader.className = ''
             loader.removeAttribute('class')
         })
@@ -33,11 +33,10 @@ weatherForm.addEventListener('submit', (e) => {
     messageOne.className = ''
     getWeather(searchVal)
     messageOne.textContent = ''
-    messageTwo.textContent= ''
-    if (searchVal){
-    loader.className = 'spinner'
+    messageTwo.textContent = ''
+    if (searchVal) {
+        loader.className = 'spinner'
     }
     search.value = ''
 })
-
-
+console.log('hello')

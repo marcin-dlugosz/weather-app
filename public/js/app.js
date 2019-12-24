@@ -5,7 +5,7 @@ const messageTwo = document.querySelector('#message-2')
 messageOne.textContent = 'Your weather forecast here'
 
 const getWeather = (address) => {
-    const forecastURL = `http://localhost:3000/weather?address=${address}`
+    const forecastURL = `/weather?address=${address}`
     return fetch(forecastURL).then((response) => {
         response.json().then((data) => {
             if (data.error) {
@@ -39,4 +39,3 @@ weatherForm.addEventListener('submit', (e) => {
     }
     search.value = ''
 })
-console.log('hello')

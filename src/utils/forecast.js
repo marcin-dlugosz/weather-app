@@ -5,13 +5,13 @@ const forecast = (longitude, latitude, callback) => {
         url,
         json: true
     }, (error, response) => {
-        const { currently, locationError } = response.body
+        const { currently, locationError, daily } = response.body
         if (error) {
             callback('Unable to connect to the weather service!')
         } else if (locationError) {
             callback('Unable to find location!')
         } else {
-            callback(undefined, `${currently.summary} It is currently ${currently.temperature.toFixed(1)} degrees out. There is a ${currently.precipProbability} % chance of rain.`)
+            callback(undefined, `${currently.summary} It is currently ${currently.temperature.toFixed(1)} degrees out. There is a ${currently.precipProbability} % chance of rain. The lowest temperature will be: ${daily.data[0].temperatureLow}`)
         }
     })
 

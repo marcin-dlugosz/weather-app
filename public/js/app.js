@@ -1,6 +1,6 @@
 const loader = document.querySelector('#loader')
+const msgWrapper = document.querySelector('#msgWrapper')
 const messageOne = document.querySelector('#message-1')
-const messageTwo = document.querySelector('#message-2')
 
 messageOne.textContent = 'Your weather forecast here'
 
@@ -13,9 +13,12 @@ const getWeather = (address) => {
                 messageOne.className = 'error'
 
             } else {
-
                 messageOne.textContent = data.location
-                messageTwo.textContent = data.forecast
+                data.forecast.forEach((summary) => {
+                    const pElement = document.createElement('p')
+                    pElement.textContent = `${summary.daily} Temperatura: ${Math.round(summary.temperature)}°C`
+                    msgWrapper.appendChild(pElement)
+                })
             }
         }).then(() => {
             loader.className = ''
@@ -30,10 +33,9 @@ const search = document.querySelector('input')
 weatherForm.addEventListener('submit', (e) => {
     e.preventDefault()
     const searchVal = search.value
-    messageOne.className = ''
     getWeather(searchVal)
     messageOne.textContent = ''
-    messageTwo.textContent = ''
+    msgWrapper.innerHTML = ''
     if (searchVal) {
         loader.className = 'spinner'
     }

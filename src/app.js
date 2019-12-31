@@ -47,37 +47,60 @@ app.get('/weather', (req, res) => {
             error: 'You must provide an address!'
         })
     }
-    geocode(req.query.address, (error, {
-        longitude,
-        latitude,
-        location
-    } = {}) => {
+    // geocode(req.query.address, (error, {
+    //     longitude,
+    //     latitude,
+    //     location
+    // } = {}) => {
 
 
-        if (error) {
-           return res.send({
-                error
-            })
+    //     if (error) {
+    //         return res.send({
+    //             error
+    //         })
 
+    //     }
+    // forecast(longitude, latitude, (error, forecastData) => {
+    //     if (error) {
+    //        return res.send({
+    //             error
+    //         })
+    //     }
+    //      res.send({
+    //          location: location,
+    //          forecast: forecastData,
+    //          address: req.query.address
+    //      })
+    // })
+    geocode(req.query.address).then((body) => {
+        return {
+            latitude: body.features[0].center[1],
+            longitude: body.features[0].center[0],
+            location: body.features[0].place_name
         }
-        forecast(longitude, latitude, (error, forecastData) => {
-            if (error) {
-               return res.send({
-                    error
-                })
-            }
-             res.send({
-                 location: location,
-                 forecast: forecastData,
-                 address: req.query.address
-             })
+    }).then((data) => {
+        return forecast(data.longitude, data.latitude).then((dailySummaries) => {
+            res.send({
+                location: data.location,
+                forecast: dailySummaries,
+                address: req.query.address
+            })
         })
-
-       
     })
 
 
+    // forecast(longitude, latitude).then((hourlySummaries) => {
+    //     res.send({
+    //         location: location,
+    //         forecast: hourlySummaries,
+    //         address: req.query.address
+    //     })
+    // })
+
 })
+
+
+
 
 // 404 page setup
 app.get('/help/*', (req, res) => {
